@@ -20,11 +20,26 @@ def print_hi(name):
 def somar(a,b):
     return a+b
 
+#Exemplo de demonstracao
 def dividir(a,b):
     if b != 0:
         return a/b
     else:
         return 'Não divide por 0'
+
+def dividir_try_except(a,b):
+    try:
+        return a / b
+    except TypeError:
+        #return 'Não divide por 0'
+        if TypeError ==ZeroDivisionError:
+            return 'Não divide por 0'
+        elif TypeError ==ArithmeticError:
+            return 'Erro de cáculo'
+        elif TypeError == ValueError:
+            return 'Erro no valor'
+        else:
+            return 'Erro desconhecido'
 
 #Teste unitarios / Teste de unidades
 # Teste da funcao somar
@@ -44,12 +59,32 @@ def test_somar_didatico():
     #valores
     (5,4,9), #teste1
     (3,2,5), #teste2
-    (10,6,16) #teste3
+    (10,6,15) #teste3
 
 ])
 
 def test_somar(num1,num2,resultado):
-    assert somar(num1,num2) == resultado
+    try:
+        assert somar(num1,num2) == resultado
+    except AssertionError:
+        print(f"Entrou no Except: {AssertionError}")
+
+def test_dividir():
+    assert dividir(4,2) ==2
+
+def test_dividir_zero():
+    assert dividir(8,0) == 'Não divide por 0'
+
+@pytest.mark.parametrize('num1,num2,resultado',[
+    (8,2,4),
+    (20,4,5),
+    (10,0,'Não divide por 0')
+])
+def test_dividir_try_except(num1,num2,resultado):
+    assert dividir_try_except(num1,num2) == resultado
+
+    #teste positivo > avança para a proxima etapa /  mostra o resultado correto
+    #teste negativo > entra na msg de erro
 
 
 # TDD: Desenvolvimento Direcionado pelo Teste
